@@ -10,9 +10,67 @@ package tictactoegame;
  */
 public class gameJFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form gameJFrame
-     */
+    int turn = 2;
+    int buttonUsed[] = {0,0,0,0,0,0,0,0,0};
+    int Xwon[] = {0,0,0,0,0,0,0,0,0};
+    int Owon[] = {0,0,0,0,0,0,0,0,0};
+    
+    int Xwon(){
+        if(Xwon[0] == 1 && Xwon[1] == 1 && Xwon[2] == 1){
+            return 1;
+        }
+        if(Xwon[3] == 1 && Xwon[4] == 1 && Xwon[5] == 1){
+            return 1;
+        }
+        if(Xwon[6] == 1 && Xwon[7] == 1 && Xwon[8] == 1){
+            return 1;
+        }
+        if(Xwon[0] == 1 && Xwon[3] == 1 && Xwon[6] == 1){
+            return 1;
+        }
+        if(Xwon[1] == 1 && Xwon[4] == 1 && Xwon[7] == 1){
+            return 1;
+        }
+        if(Xwon[2] == 1 && Xwon[5] == 1 && Xwon[8] == 1){
+            return 1;
+        }
+        if(Xwon[0] == 1 && Xwon[4] == 1 && Xwon[8] == 1){
+            return 1;
+        }
+        if(Xwon[2] == 1 && Xwon[4] == 1 && Xwon[6] == 1){
+            return 1;
+        }
+        return 0;
+    }
+    
+    int Owon(){
+        if(Owon[0] == 1 && Owon[1] == 1 && Owon[2] == 1){
+            return 1;
+        }
+        if(Owon[3] == 1 && Owon[4] == 1 && Owon[5] == 1){
+            return 1;
+        }
+        if(Owon[6] == 1 && Owon[7] == 1 && Owon[8] == 1){
+            return 1;
+        }
+        if(Owon[0] == 1 && Owon[3] == 1 && Owon[6] == 1){
+            return 1;
+        }
+        if(Owon[1] == 1 && Owon[4] == 1 && Owon[7] == 1){
+            return 1;
+        }
+        if(Owon[2] == 1 && Owon[5] == 1 && Owon[8] == 1){
+            return 1;
+        }
+        if(Owon[0] == 1 && Owon[4] == 1 && Owon[8] == 1){
+            return 1;
+        }
+        if(Owon[2] == 1 && Owon[4] == 1 && Owon[6] == 1){
+            return 1;
+        }
+        return 0;
+    }
+    
     public gameJFrame() {
         initComponents();
     }
@@ -190,7 +248,7 @@ public class gameJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_resetbtnActionPerformed
 
     private void box0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box0ActionPerformed
-      
+        
     }//GEN-LAST:event_box0ActionPerformed
 
     private void box2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box2ActionPerformed
