@@ -4,6 +4,8 @@
  */
 package tictactoegame;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Surachai
@@ -224,43 +226,346 @@ public class gameJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void box5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box5ActionPerformed
-       
+       if(buttonUsed[5] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box5.setText("X");
+                buttonUsed[5] = 1;
+                Xwon[5] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box5.setText("O");
+                buttonUsed[5] = 1;
+                Owon[5] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }
     }//GEN-LAST:event_box5ActionPerformed
 
     private void box4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box4ActionPerformed
-        
+        if(buttonUsed[4] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box4.setText("X");
+                buttonUsed[4] = 1;
+                Xwon[4] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box4.setText("O");
+                buttonUsed[4] = 1;
+                Owon[4] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }
     }//GEN-LAST:event_box4ActionPerformed
 
     private void box6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box6ActionPerformed
-        
+        if(buttonUsed[6] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box6.setText("X");
+                buttonUsed[6] = 1;
+                Xwon[6] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box6.setText("O");
+                buttonUsed[6] = 1;
+                Owon[6] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }
     }//GEN-LAST:event_box6ActionPerformed
 
     private void box8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box8ActionPerformed
-       
+     if(buttonUsed[8] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box8.setText("X");
+                buttonUsed[8] = 1;
+                Xwon[8] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box8.setText("O");
+                buttonUsed[8] = 1;
+                Owon[8] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }  
     }//GEN-LAST:event_box8ActionPerformed
 
     private void box7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box7ActionPerformed
-       
+     if(buttonUsed[7] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box7.setText("X");
+                buttonUsed[7] = 1;
+                Xwon[7] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box7.setText("O");
+                buttonUsed[7] = 1;
+                Owon[7] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }  
     }//GEN-LAST:event_box7ActionPerformed
 
     private void resetbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetbtnActionPerformed
-       
+        box0.setText("");
+        box1.setText("");
+        box2.setText("");
+        box3.setText("");
+        box4.setText("");
+        box5.setText("");
+        box6.setText("");
+        box7.setText("");
+        box8.setText("");
+
+        turn = 2;
+        for(int i = 0; i < 9; i++){
+            buttonUsed[i] = 0;
+            Xwon[i] = 0;
+            Owon[i] = 0;
+        }
     }//GEN-LAST:event_resetbtnActionPerformed
 
     private void box0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box0ActionPerformed
-        
+        if(buttonUsed[0] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box0.setText("X");
+                buttonUsed[0] = 1;
+                Xwon[0] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box0.setText("O");
+                buttonUsed[0] = 1;
+                Owon[0] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }
     }//GEN-LAST:event_box0ActionPerformed
 
     private void box2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box2ActionPerformed
-      
+        if(buttonUsed[2] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box2.setText("X");
+                buttonUsed[2] = 1;
+                Xwon[2] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box2.setText("O");
+                buttonUsed[2] = 1;
+                Owon[2] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }
     }//GEN-LAST:event_box2ActionPerformed
 
     private void box1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box1ActionPerformed
-       
+       if(buttonUsed[1] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box1.setText("X");
+                buttonUsed[1] = 1;
+                Xwon[1] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box1.setText("O");
+                buttonUsed[1] = 1;
+                Owon[1] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }
     }//GEN-LAST:event_box1ActionPerformed
 
     private void box3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box3ActionPerformed
-       
+       if(buttonUsed[3] == 0){
+            if(turn % 2 == 0){
+                turn++;
+                box3.setText("X");
+                buttonUsed[3] = 1;
+                Xwon[3] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }else{
+                turn++;
+                box3.setText("O");
+                buttonUsed[3] = 1;
+                Owon[3] = 1;
+
+                int Xresult = Xwon();
+                int Oresult = Owon();
+
+                if(Xresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player X won");
+                }else if(Oresult == 1){
+                    JOptionPane.showMessageDialog(rootPane,"Player O won");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"THIS BUTTON IS ALREADY USED");
+        }
     }//GEN-LAST:event_box3ActionPerformed
 
     /**
