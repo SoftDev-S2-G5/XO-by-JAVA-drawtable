@@ -4,6 +4,7 @@
  */
 package tictactoegame;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,27 +20,51 @@ public class gameJFrame extends javax.swing.JFrame {
     
     int Xwon(){
         if(Xwon[0] == 1 && Xwon[1] == 1 && Xwon[2] == 1){
+            box0.setBackground(Color.green);
+            box1.setBackground(Color.green);
+            box2.setBackground(Color.green);
             return 1;
         }
         if(Xwon[3] == 1 && Xwon[4] == 1 && Xwon[5] == 1){
+            box3.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box5.setBackground(Color.green);
             return 1;
         }
         if(Xwon[6] == 1 && Xwon[7] == 1 && Xwon[8] == 1){
+            box6.setBackground(Color.green);
+            box7.setBackground(Color.green);
+            box8.setBackground(Color.green);
             return 1;
         }
         if(Xwon[0] == 1 && Xwon[3] == 1 && Xwon[6] == 1){
+            box0.setBackground(Color.green);
+            box3.setBackground(Color.green);
+            box6.setBackground(Color.green);
             return 1;
         }
         if(Xwon[1] == 1 && Xwon[4] == 1 && Xwon[7] == 1){
+            box1.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box7.setBackground(Color.green);
             return 1;
         }
         if(Xwon[2] == 1 && Xwon[5] == 1 && Xwon[8] == 1){
+            box2.setBackground(Color.green);
+            box5.setBackground(Color.green);
+            box8.setBackground(Color.green);
             return 1;
         }
         if(Xwon[0] == 1 && Xwon[4] == 1 && Xwon[8] == 1){
+            box0.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box8.setBackground(Color.green);
             return 1;
         }
         if(Xwon[2] == 1 && Xwon[4] == 1 && Xwon[6] == 1){
+            box2.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box6.setBackground(Color.green);
             return 1;
         }
         return 0;
@@ -47,27 +72,51 @@ public class gameJFrame extends javax.swing.JFrame {
     
     int Owon(){
         if(Owon[0] == 1 && Owon[1] == 1 && Owon[2] == 1){
+            box0.setBackground(Color.green);
+            box1.setBackground(Color.green);
+            box2.setBackground(Color.green);
             return 1;
         }
         if(Owon[3] == 1 && Owon[4] == 1 && Owon[5] == 1){
+            box3.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box5.setBackground(Color.green);
             return 1;
         }
         if(Owon[6] == 1 && Owon[7] == 1 && Owon[8] == 1){
+            box6.setBackground(Color.green);
+            box7.setBackground(Color.green);
+            box8.setBackground(Color.green);
             return 1;
         }
         if(Owon[0] == 1 && Owon[3] == 1 && Owon[6] == 1){
+            box0.setBackground(Color.green);
+            box3.setBackground(Color.green);
+            box6.setBackground(Color.green);
             return 1;
         }
         if(Owon[1] == 1 && Owon[4] == 1 && Owon[7] == 1){
+            box1.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box7.setBackground(Color.green);
             return 1;
         }
         if(Owon[2] == 1 && Owon[5] == 1 && Owon[8] == 1){
+            box2.setBackground(Color.green);
+            box5.setBackground(Color.green);
+            box8.setBackground(Color.green);
             return 1;
         }
         if(Owon[0] == 1 && Owon[4] == 1 && Owon[8] == 1){
+            box0.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box8.setBackground(Color.green);
             return 1;
         }
         if(Owon[2] == 1 && Owon[4] == 1 && Owon[6] == 1){
+            box2.setBackground(Color.green);
+            box4.setBackground(Color.green);
+            box6.setBackground(Color.green);
             return 1;
         }
         return 0;
@@ -96,9 +145,11 @@ public class gameJFrame extends javax.swing.JFrame {
         box2 = new javax.swing.JButton();
         box1 = new javax.swing.JButton();
         box3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        box5.setBackground(new java.awt.Color(192, 192, 192));
         box5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,6 +157,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box4.setBackground(new java.awt.Color(192, 192, 192));
         box4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +165,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box6.setBackground(new java.awt.Color(192, 192, 192));
         box6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,6 +173,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box8.setBackground(new java.awt.Color(192, 192, 192));
         box8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,6 +181,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box7.setBackground(new java.awt.Color(192, 192, 192));
         box7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,6 +189,8 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        resetbtn.setBackground(new java.awt.Color(204, 204, 204));
+        resetbtn.setFont(new java.awt.Font("Browallia New", 0, 18)); // NOI18N
         resetbtn.setText("PLAY AGAIN");
         resetbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,6 +198,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box0.setBackground(new java.awt.Color(192, 192, 192));
         box0.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +206,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box2.setBackground(new java.awt.Color(192, 192, 192));
         box2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +214,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box1.setBackground(new java.awt.Color(192, 192, 192));
         box1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +222,7 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        box3.setBackground(new java.awt.Color(192, 192, 192));
         box3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         box3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,57 +230,66 @@ public class gameJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Browallia New", 0, 48)); // NOI18N
+        jLabel1.setText("Tic-Tac-Toe");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(box6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(box7, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(resetbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(122, 122, 122))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(box3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(box0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(box6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(box7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(box3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(box0, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(box1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(box4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(box1, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(box4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(box2, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                    .addComponent(box5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(box8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(resetbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(122, 122, 122))
+                            .addComponent(box2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(box5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(box8, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(104, 104, 104))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(box1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(box0, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(box2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(box4, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(box4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(box3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(box5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(box5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(box8, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(box8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(box7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(box6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(box6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addComponent(resetbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -415,6 +485,16 @@ public class gameJFrame extends javax.swing.JFrame {
         box6.setText("");
         box7.setText("");
         box8.setText("");
+
+        box0.setBackground(Color.LIGHT_GRAY);
+        box1.setBackground(Color.LIGHT_GRAY);
+        box2.setBackground(Color.LIGHT_GRAY);
+        box3.setBackground(Color.LIGHT_GRAY);
+        box4.setBackground(Color.LIGHT_GRAY);
+        box5.setBackground(Color.LIGHT_GRAY);
+        box6.setBackground(Color.LIGHT_GRAY);
+        box7.setBackground(Color.LIGHT_GRAY);
+        box8.setBackground(Color.LIGHT_GRAY);
 
         turn = 2;
         for(int i = 0; i < 9; i++){
@@ -613,6 +693,7 @@ public class gameJFrame extends javax.swing.JFrame {
     private javax.swing.JButton box6;
     private javax.swing.JButton box7;
     private javax.swing.JButton box8;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton resetbtn;
     // End of variables declaration//GEN-END:variables
 }
