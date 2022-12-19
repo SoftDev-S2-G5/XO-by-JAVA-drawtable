@@ -1,223 +1,309 @@
-import java.util.Arrays;
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
 
-public class TicTacToe extends JFrame implements MouseListener{
+public class TicTacToe implements ActionListener{
+    public int tablesize;
+    List<String> check_horizontal = new ArrayList<>();
+    List<String> check_vertical = new ArrayList<>();
+    List<String> check_rDiagonal = new ArrayList<>();
+    List<String> check_lDiagonal = new ArrayList<>();
 
-    String[][] board_array;
-    String player = "X";
-    int turn_count = 0;
-    int board_size;
+    Random random = new Random();
+    JFrame frame = new JFrame();
 
-//=========================================================================
-    void setboard_size(int s){
-        board_size = s;
-        board_array = new String[s][s];
-        for(int i=0;i<board_size;i++){
-            for(int j=0;j<board_size;j++){
-            board_array[i][j] = " ";
+    JPanel title_panel = new JPanel();
+    JPanel option_panel = new JPanel();
+    JPanel playButton_panel = new JPanel();
+    JPanel optionButton_panel = new JPanel();
+
+    JLabel textfield = new JLabel();
+
+    JButton[][] buttons;
+    JButton playAgain_btn = new JButton("Play again");
+    JButton changeSize_btn = new JButton("Change size");
+    JButton exit_btn = new JButton("Exit");
+
+    boolean playerwon_rightDia, playerwon_lefttDia,  playerwon_hori,  playerwon_verti  = true;
+    boolean player1_turn;
+
+    public void CreateGame(int tableSize){
+        tablesize = tableSize;
+        buttons = new JButton[tableSize][tableSize];
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600,600);
+        frame.setLayout(new BorderLayout());
+        frame.setVisible(true);
+        //set text 
+        textfield.setBackground(new Color(211, 84, 0));
+        textfield.setForeground(Color.BLACK);
+        textfield.setFont(new Font(Font.SANS_SERIF,Font.BOLD,50));
+        textfield.setHorizontalAlignment(JLabel.CENTER);
+        textfield.setText("Tic-Tac-Toe");
+        textfield.setOpaque(true);
+        //set frame for text 
+        title_panel.setLayout(new BorderLayout());
+        title_panel.setBounds(0,0,800,70);
+        //set frame for btn option
+        option_panel.setLayout(new BorderLayout());
+        option_panel.setBounds(0,0,300,300);
+        optionButton_panel.setBackground(new Color(211, 84, 0));
+        //playing board game
+        playButton_panel.setLayout(new GridLayout(tableSize,tableSize));
+
+        for(int i = 0; i < tableSize; i++){
+            for(int j = 0; j < tableSize; j++){
+                buttons[i][j] = new JButton();
+                playButton_panel.add(buttons[i][j]);
+                buttons[i][j].setFont(new Font(Font.SANS_SERIF,Font.BOLD,120));
+                buttons[i][j].setBackground(new Color(237, 187, 153));
+                buttons[i][j].setFocusable(false);
+                buttons[i][j].addActionListener(this);
+            }
+        }
+
+        //generate btn
+            //btn's size
+        changeSize_btn.setPreferredSize(new Dimension(150,50));
+        playAgain_btn.setPreferredSize(new Dimension(150,50));
+        exit_btn.setPreferredSize(new Dimension(150,50));
+
+        optionButton_panel.add(changeSize_btn);
+        optionButton_panel.add(playAgain_btn);
+        optionButton_panel.add(exit_btn);
+
+        title_panel.add(textfield);
+        option_panel.add(optionButton_panel);
+        frame.add(title_panel,BorderLayout.NORTH);
+        frame.add(playButton_panel,BorderLayout.CENTER);
+        frame.add(option_panel,BorderLayout.SOUTH);
+        
+        changeSize_btn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                UserInput start = new UserInput();
+                start.CreateWindow();
+                frame.dispose();
+            }
+        });
+        
+
+        playAgain_btn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                for(int i = 0; i < tableSize; i++){
+                    for(int j = 0; j < tablesize; j++){
+                        buttons[i][j].setEnabled(true);
+                        buttons[i][j].setBackground(new Color(237, 187, 153));
+                        buttons[i][j].setText("");
+                    }
+                }
+                playerwon_hori = true;
+                playerwon_verti = true;
+                playerwon_rightDia = true;
+                playerwon_lefttDia = true;
+                RemoveAllElement();
+                textfield.setForeground(Color.BLACK);
+                textfield.setText("Tic-Tac-Toe");
+            }
+        });
+
+        exit_btn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.exit(0);
+            }
+        });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        for(int i = 0; i < tablesize; i++){
+            for(int j = 0; j < tablesize; j++){
+                if(e.getSource() == buttons[i][j]){
+                    if(player1_turn){
+                        if(buttons[i][j].getText() == ""){
+                            buttons[i][j].setForeground(new Color(255,0,0));
+                            buttons[i][j].setText("X");
+                            player1_turn = false;
+                            textfield.setText("O turn");
+                            check();
+                        }
+                    }else{
+                        if(buttons[i][j].getText() == ""){
+                            buttons[i][j].setForeground(new Color(0,0,255));
+                            buttons[i][j].setText("O");
+                            player1_turn = true;
+                            textfield.setText("X turn");
+                            check();
+                        }
+                    }
+                }
             }
         }
     }
 
-    void add_position(Integer row,Integer col) {
+    public void firstTurn(){
+        try{
+            Thread.sleep(2000);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
 
-        if(board_array[row][col] == "X" || board_array[row][col] == "O"){
-        } else {
-            board_array[row][col] = this.player;
-            change_player();
+        if(random.nextInt(2) == 0){
+            player1_turn = true;
+            textfield.setText("X turn");
+        }else{
+            player1_turn = false;
+            textfield.setText("O turn");
         }
     }
 
-
-
-    void change_player(){
-        if (this.player.equals("X")){
-            this.player = "O";
+    public void check(){
+        // Horizontal
+        for(int i = 0 ; i < tablesize ; i++){
+            for(int j = 0 ; j < tablesize; j++){
+                if(buttons[i][j].getText() == "X"){
+                    check_horizontal.add("X");
+                }else if(buttons[i][j].getText() == "O"){
+                    check_horizontal.add("O");
+                }
+            }
         }
-        else{
-            this.player = "X";
+        // Vertical
+        for(int i = 0 ; i < tablesize ; i++){
+            for(int j = 0 ; j < tablesize; j++){
+                if(buttons[j][i].getText() == "X"){
+                    check_vertical.add("X");
+                }else if(buttons[j][i].getText() == "O"){
+                    check_vertical.add("O");
+                }
+            }
         }
-        ++this.turn_count;
+        // Right Diagonal
+        for(int i = 0 ; i < tablesize ; i++){
+            if(buttons[i][i].getText() == "X"){
+                check_rDiagonal.add("X");
+            }else if(buttons[i][i].getText() == "O"){
+                check_rDiagonal.add("O");
+            }
+        }
+        // Left Diagonal
+        for(int i = 0; i < tablesize ; i++){
+            if(buttons[i][tablesize - 1 - i].getText() == "X"){
+                check_lDiagonal.add("X");
+            }else if(buttons[i][tablesize - 1 - i].getText() == "O"){
+                check_lDiagonal.add("O");
+            }
+        }
+        //send the result to terminal
+        System.out.println("Horizontal:"+check_horizontal);
+        System.out.println("Vertical:"+check_vertical);
+        System.out.println("rDiaginal:"+check_rDiagonal);
+        System.out.println("lDiagonal:"+check_lDiagonal);
+
+        //call the function
+        CheckHorizontal();
+        CheckVertical();
+        CheckRightDiagonal();
+        CheckLeftDiagonal();
+        RemoveAllElement();
     }
 
-    String getPlayingmark(){
-        if (player.equals("X")){
-            return "O";
+    //check winner in  each case
+    public void CheckHorizontal(){
+        for (String s : check_horizontal) {
+            if (!s.equals(check_horizontal.get(0))){
+                playerwon_hori = false;
+                System.out.println("Horizontal list element not the same");
+            }   
         }
-        else{
-            return "X";
-        }
-    }
-
-    Integer getTurncount(){
-        return turn_count;
-    }
-//=========================================================================
-    int[] convert_mousepos(int mouse_x,int mouse_y){
-        int[] row_col = {(int)mouse_y/(sc_size/board_size),(int)mouse_x/(sc_size/board_size)};
-        return row_col;
-    }
-    //-----------UESLESS--################
-    @Override
-    public void mouseClicked(MouseEvent e) {}
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (game_mode.equals("Menu") && e.getX() > 250 && e.getX() < 550 && e.getY() >450 && e.getY()<550){
-            Graphics2D g2d = (Graphics2D) screen.getGraphics();
-            g2d.setColor(Color.decode("#33D81A"));
-            g2d.fillRect(250,450,300,100);
-            g2d.setColor(Color.black);
-            g2d.drawRect(250,450,300,100);
-            g2d.setFont(new Font("Calibri", Font.PLAIN, 50));
-            g2d.drawString("Start",340,515);
-            g2d.setFont(new Font("Calibri", Font.PLAIN, 20));
-            g2d.drawString("Insert board size.",320,290);
-
-            String str_size = tf1.getText();
-            int int_size = Integer.parseInt(str_size);
-            if (int_size>2){
-                board_size = int_size;
-                setboard_size(board_size);
+        if(playerwon_hori && check_horizontal.size() == tablesize){
+            System.out.println("Right Diagonal list lenght same as tablesize");
+            if(check_horizontal.get(0) == "X"){
+                xWins();
+                System.out.println("Player X wins (Horizontal)");
             }
             else{
-                tf1.setText("");
-                g2d.setColor(Color.RED);
-                g2d.drawString("Board size much more than 2",250,430);
+                oWins();
+                System.out.println("Player O wins (Horizontall)");
             }
         }
     }
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-    @Override
-    public void mouseExited(MouseEvent e) {}
-    //------MOUSE------MOUSE------MOUSE------MOUSE------MOUSE------MOUSE------
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        if (game_mode.equals("Menu") && e.getX() > 250 && e.getX() < 550 && e.getY() >450 && e.getY()<550){
-            repaint();
-            if (board_size>1){
-                game_mode = "Background";
-                repaint();
-                game_mode = "Play";
-                screen.removeAll();
-            }
-        }
-        else if(game_mode.equals("Play")){
-            int[] row_col = convert_mousepos(e.getX(),e.getY());
-            add_position(row_col[0],row_col[1]);
+
+    public void CheckVertical(){
+        for (String s : check_vertical) {
             
-        }
-        else if(game_mode.equals("Win")){
-            
-            game_mode = "Play";
-            turn_count = 0;
-            setboard_size(board_size);
-            screen.removeAll();
-            repaint();
-            tf1 = new JTextField();
-            tf1.setBounds(250,300,300,100);
-            tf1.setFont(new Font("Calibri", Font.PLAIN, 50));
-            repaint();
-        }
+        }  
     }
-    //=========================================================================
-    JPanel screen = new JPanel();
-    String game_mode = "Menu";
-    final int sc_size = 800;
 
-    void draw_Game(){
-        int table_size = sc_size/board_size;
-        screen.removeAll();
-        Graphics2D g2d = (Graphics2D) screen.getGraphics();
-        g2d.setStroke(new BasicStroke(2));
-        for (int i=0;i<board_size;i++){
-            g2d.setColor(Color.black);
-            g2d.drawLine(0, i*table_size, sc_size, i*table_size);
-            for (int j=0;j<board_size;j++){
-                g2d.setColor(Color.black);
-                g2d.drawLine(j*table_size, 0, j*table_size, sc_size);
-                g2d.setFont(new Font("Calibri", Font.PLAIN, table_size));
-                if (board_array[i][j].equals("O")){
-                    g2d.setColor(Color.blue);
-                }
-                else if(board_array[i][j].equals("X")){
-                    g2d.setColor(Color.red);                    
-                }
-                g2d.drawString(board_array[i][j],(table_size*j)+20,(table_size*(i+1))-20);
+    public void CheckRightDiagonal(){
+        for (String s : check_rDiagonal) {
+            if(!s.equals(check_rDiagonal.get(0))){
+                playerwon_rightDia = false;
+                System.out.println("Right Diagonal list element not the same");
             }
         }
-        
-    }
-    JTextField tf1;
-    void draw_Menu(){
-        
-        Graphics2D g2d = (Graphics2D) screen.getGraphics();
-        g2d.setStroke(new BasicStroke(3));
-
-        g2d.setColor(Color.decode("#2AEA0E"));
-        g2d.fillRect(250,450,300,100);
-        g2d.setColor(Color.black);
-        g2d.drawRect(250,450,300,100);
-        g2d.setFont(new Font("Calibri", Font.PLAIN, 50));
-        g2d.drawString("Start",340,515);
-        g2d.setFont(new Font("Calibri", Font.PLAIN, 20));
-        g2d.drawString("Insert board size.",320,290);
-    }
-    void draw_Win(){
-        screen.removeAll();
-        Graphics2D g2d = (Graphics2D) screen.getGraphics();
-        g2d.setColor(Color.gray);
-        g2d.setFont(new Font("Calibri", Font.PLAIN, 20));
-        g2d.drawString("Click for play again.",300,500);
-        g2d.setColor(Color.RED);
-        g2d.setFont(new Font("Calibri", Font.PLAIN, 150));
-        
-    }
-    //------------------################
-    public void paint(Graphics g){
-        switch (game_mode) {
-            // super.paint(g);
-            case "Menu":
-                draw_Menu();
-                break;
-            case "Play":
-                super.paint(g);
-                draw_Game();
-                break;
-            case "Win":
-                super.paint(g);
-                draw_Win();
-                break;
-            case "Background":
-                super.paint(g);
-                break;
-            default:
-                break;
+        if(playerwon_rightDia && check_rDiagonal.size() == tablesize){
+            System.out.println("Right Diagonal list lenght same as tablesize");
+            if(check_rDiagonal.get(0) == "X"){
+                xWins();
+                System.out.println("Player X wins (Right Diagonal)");
+            }else{
+                oWins();
+                System.out.println("Player O wins (Right Diagonal)");
+            }
         }
     }
 
-//------------------################
-    TicTacToe(){
-
-        this.setTitle("Sorting Game");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-        this.setResizable(false);
-
-        screen.setPreferredSize(new Dimension(sc_size, sc_size));
-        screen.addMouseListener(this);
-        this.add(screen);
-        this.pack();
-        this.setVisible(true);
-
-        tf1 = new JTextField();
-        tf1.setBounds(250,300,300,100);
-        tf1.setFont(new Font("Calibri", Font.PLAIN, 50));
-        screen.add(tf1);
+    public void CheckLeftDiagonal(){
+        for (String s : check_lDiagonal) {
+            if(!s.equals(check_lDiagonal.get(0))){
+                playerwon_lefttDia = false;
+                System.out.println("Left Diagonal list element not the same");
+            }
+        }
+        if(playerwon_lefttDia && check_lDiagonal.size() == tablesize){
+            System.out.println("Left Diagonal list lenght same as tablesize");
+            if(check_lDiagonal.get(0) == "X"){
+                xWins();
+                System.out.println("Player X wins (Left Diagonal)");
+            }else{
+                oWins();
+                System.out.println("Player O wins (Left Diagonal)");
+            }
+        }
     }
-//=========================================================================
-    public static void main(String[] args) {
-        new TicTacToe();
+
+    //Display aftter know the winner
+    public void xWins(){
+        for(int i = 0; i < tablesize; i++){
+            for(int j = 0; j < tablesize; j++){
+                buttons[i][j].setEnabled(false);
+            }
+        }
+        textfield.setForeground(Color.GREEN);
+        textfield.setText("X Wins");
+    }
+
+    public void oWins(){
+        for(int i = 0; i < tablesize; i++){
+            for(int j = 0; j < tablesize; j++){
+                buttons[i][j].setEnabled(false);
+            }
+        }
+        textfield.setForeground(Color.GREEN);
+        textfield.setText("O Wins");
+    }
+
+    //Delete list value
+    public void RemoveAllElement(){
+        check_horizontal.removeAll(check_horizontal);
+        check_vertical.removeAll(check_vertical);
+        check_rDiagonal.removeAll(check_rDiagonal);
+        check_lDiagonal.removeAll(check_lDiagonal);
     }
 }
