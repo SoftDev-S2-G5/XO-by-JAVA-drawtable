@@ -192,7 +192,40 @@ public class TicTacToe implements ActionListener{
 
 
     public boolean check(){
-        
+        String[] checker = new String[tablesize];
+        for (int i=0;i<tablesize;i++){
+            if(this.currentPlayer.equals("x")){
+                checker[i] = "o";
+            }
+            else{
+                checker[i] = "x";
+            }
+        }
+        String[] horizontal = new String[tablesize];
+        String[] temp_hor = new String[tablesize];
+        String[] temp_ver = new String[tablesize];
+        for (int i=0;i<tablesize;i++){
+            for (int x=0;x<tablesize;x++){
+                horizontal[x] = buttons[i][x].getText();
+            }
+            if(Arrays.deepEquals(checker, horizontal)){      // Check Row
+                return true;
+            }
+            
+            String[] temp = new String[tablesize];
+            for (int j=0;j<tablesize;j++){
+                temp[j] = buttons[j][i].getText();
+            }
+            if(Arrays.deepEquals(checker, temp)){            // Check Column
+                return true;
+            }
+            temp_hor[i] = buttons[i][i].getText();
+            temp_ver[i] = buttons[i][(tablesize-1)-i].getText();
+        }
+        if(Arrays.deepEquals(checker, temp_hor) || Arrays.deepEquals(checker, temp_ver)){     // Check Diagonal
+            return true;
+        }
+        return false;
     }
 
     public void ButtonEnable(){
