@@ -228,6 +228,33 @@ public class TicTacToe implements ActionListener{
         return false;
     }
 
+    public void SaveGame(){
+        try {
+            FileWriter writer = new FileWriter(new File("save.txt"));
+            writer.write(String.valueOf(tablesize));
+            writer.write("\n");
+            for(int i = 0; i < tablesize; i++){
+                for(int j = 0; j < tablesize; j++){
+                    if(!buttons[i][j].getText().equals("x") && !buttons[i][j].getText().equals("o")) 
+                    {
+                        writer.write("n");
+                    }else{
+                        writer.write(buttons[i][j].getText());
+                    }
+                }
+            }
+            writer.write("\n");
+            writer.write(currentPlayer);
+            writer.write("\n");
+            writer.write(String.valueOf(count));
+            writer.write("\n");
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Saved", null, JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void ButtonEnable(){
         for(int x = 0; x < tablesize; x++){
             for(int y = 0; y < tablesize; y++){
