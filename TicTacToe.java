@@ -106,7 +106,6 @@ public class TicTacToe implements ActionListener{
                     }
                 }
                 count = 0;
-                //RemoveAllElement();
                 textfield.setForeground(Color.BLACK);
                 textfield.setText("Tic-Tac-Toe");
             }
@@ -115,12 +114,14 @@ public class TicTacToe implements ActionListener{
         save_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                SaveGame();
             }
         });
 
         load_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                LoadGame();
             }
         });
         
@@ -252,6 +253,70 @@ public class TicTacToe implements ActionListener{
             JOptionPane.showMessageDialog(null, "Saved", null, JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void LoadGame(){
+        List<String> list = new ArrayList<String>();  
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("save.txt"));
+            String data;
+            while((data = reader.readLine()) != null){
+               list.add(data);
+            }
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+        int old_tablesize = Integer.parseInt(list.get(0));
+        if(tablesize == old_tablesize){
+            currentPlayer = list.get(2);
+            count = Integer.parseInt(list.get(3));
+            System.out.println(list.get(1));
+            char[] XO_list = list.get(1).toCharArray();
+            System.out.println(XO_list);
+            int XO_listDefaulthIndex = 0;
+            for(int i = 0; i < tablesize ; i++){
+                for(int j = 0; j < tablesize; j++){
+                    buttons[i][j].setForeground(new Color(0,0,255));
+                    if(String.valueOf(XO_list[XO_listDefaulthIndex]).equals("n")){
+                        buttons[i][j].setText("");
+                    }else{
+                        if(String.valueOf(XO_list[XO_listDefaulthIndex]).equals("x")){
+                            buttons[i][j].setForeground(new Color(255,0,0));
+                        }else{
+                            buttons[i][j].setForeground(new Color(0,0,255));
+                        }
+                        buttons[i][j].setText(String.valueOf(XO_list[XO_listDefaulthIndex]));
+                    }
+                    if(currentPlayer == "x"){
+                        textfield.setText("x turn");
+                    }else{
+                        textfield.setText("o turn");
+                    }
+                    XO_listDefaulthIndex += 1;
+                }
+            }
+            ShowWinCase();
+            JOptionPane.showMessageDialog(null, "Load Finished", null, JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Table size is not the same (Table size must be " + old_tablesize +").", null, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void ShowWinCase(){
+        if(count == tablesize * tablesize){
+            ButtonEnable();
+            textfield.setText("draw");
+        }else{
+            if(check() && currentPlayer.equals("o")){
+                ButtonEnable();
+                textfield.setForeground(Color.GREEN);
+                textfield.setText("x wins");
+            }else if(check() && currentPlayer.equals("x")){
+                ButtonEnable();
+                textfield.setForeground(Color.GREEN);
+                textfield.setText("o wins");
+            }
         }
     }
 
