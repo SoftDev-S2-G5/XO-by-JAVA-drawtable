@@ -1,4 +1,5 @@
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class Control extends JFrame implements MouseListener {
@@ -101,7 +102,7 @@ public class Control extends JFrame implements MouseListener {
     }
 
     void change_player(){
-        if (currentPlayer.equals("X")){
+        if (this.currentPlayer.equals("X")){
             this.currentPlayer = "O";
         }
         else{
@@ -129,7 +130,7 @@ public class Control extends JFrame implements MouseListener {
         int[] row_col = convert_mousepos(e.getX(),e.getY());
             view_control.add_position(row_col[0],row_col[1]);
             repaint();
-            if(model_control.check_winner()){
+            if(model_control.check_winner(currentPlayer)){
                 // System.out.println("Got Winner");
             }
     }
@@ -141,21 +142,4 @@ public class Control extends JFrame implements MouseListener {
     public void mouseExited(MouseEvent e) {
         
     } 
-    // public static void ShowWinCase(int count){
-    //     boolean check = model_control.CheckWin(view_control.tablesize,view_control.currentPlayer,view_control.buttons);
-    //     if(count == view_control.tablesize * view_control.tablesize){
-    //         Model.ButtonEnable(view_control.tablesize);
-    //         view_control.textfield.setText("draw");
-    //     }else{
-    //         if(check && view_control.currentPlayer.equals("o")){
-    //             Model.ButtonEnable(view_control.tablesize);
-    //             view_control.textfield.setForeground(Color.GREEN);
-    //             view_control.textfield.setText("x wins");
-    //         }else if(check && view_control.currentPlayer.equals("x")){
-    //             Model.ButtonEnable(view_control.tablesize);
-    //             view_control.textfield.setForeground(Color.GREEN);
-    //             view_control.textfield.setText("o wins");
-    //         }
-    //     }
-    // }
 }

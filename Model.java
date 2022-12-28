@@ -13,42 +13,42 @@ public class Model extends Control {
         return true;
     }
     
-    Boolean check_winner(){
+    Boolean check_winner(String currentPlayer){
         String[] checker = new String[view_control.tableSize];
-        for (int i=0;i<view_control.tableSize;i++){
-            if(currentPlayer.equals("x")){
-                checker[i] = "o";
+        for (int i = 0 ; i < view_control.tableSize ; i++){
+            if(currentPlayer.equals("X")){
+                checker[i] = "O";
             }
             else{
-                checker[i] = "x";
+                checker[i] = "X";
             }
         }
-        String[] horizontal = new String[view_control.tableSize];
+        for (int i = 0 ; i < view_control.tableSize ; i++){
+            System.out.println(checker[i]);
+        }
         String[] temp_hor = new String[view_control.tableSize];
         String[] temp_ver = new String[view_control.tableSize];
-        for (int i=0;i<view_control.tableSize;i++){
-            for (int x=0;x<view_control.tableSize;x++){
-                horizontal[x] = view_control.buttons[i][x];
-            }
-            if(Arrays.deepEquals(checker, horizontal)){      // Check Row
+        for (int i = 0 ; i < view_control.tableSize ; i++){
+            System.out.println("LOOP");
+            if(Arrays.deepEquals(checker, view_control.buttons[i])){ // check row
+                System.out.println("Row Win");
                 return true;
             }
-
             String[] temp = new String[view_control.tableSize];
-            for (int j=0;j<view_control.tableSize;j++){
+            for (int j = 0 ; j < view_control.tableSize ; j++){
                 temp[j] = view_control.buttons[j][i];
             }
-            if(Arrays.deepEquals(checker, temp)){            // Check Column
+            if(Arrays.deepEquals(checker, temp)){ // check collumn
+                System.out.println("Column Win");
                 return true;
             }
             temp_hor[i] = view_control.buttons[i][i];
-            temp_ver[i] = view_control.buttons[i][(view_control.tableSize-1)-i];
+            temp_ver[i] = view_control.buttons[i][(view_control.tableSize - 1) - i];
         }
-        if(Arrays.deepEquals(checker, temp_hor) || Arrays.deepEquals(checker, temp_ver)){     // Check Diagonal
-            System.out.println("Got winner");
+        if(Arrays.deepEquals(checker, temp_hor) || Arrays.deepEquals(checker, temp_ver)){
+            System.out.println("Diagonal Win");
             return true;
         }
-        System.out.println("Got no Winnwe");
         return false;
     }
 

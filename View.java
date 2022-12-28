@@ -82,12 +82,9 @@ public class View extends Control{
                     g2d.setColor(Color.red); 
                     g2d.drawString(buttons[i][j],(table_size * j) + 60,(table_size * (i + 1)) - 50);  //not ok              
                 }
-                
-               
-                // System.out.println("test");
             }
         }
-        if(control.count == tableSize * tableSize && !Control.model_control.check_winner()){
+        if(count == tableSize * tableSize && !model_control.check_winner(currentPlayer)){
             System.out.println("Draw");
         }
     }
@@ -99,9 +96,8 @@ public class View extends Control{
     public void add_position(Integer row,Integer col) {
         if(buttons[row][col] == "X" || buttons[row][col] == "O"){
         } else {
-            buttons[row][col] = control.currentPlayer;
-            System.out.println(row+" "+col);
-            control.change_player();
+            buttons[row][col] = currentPlayer;
+            change_player();
         }
     }
 }
