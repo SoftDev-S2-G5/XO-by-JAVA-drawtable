@@ -83,6 +83,9 @@ public class View implements ActionListener {
                 buttons[i][j].addActionListener(this);
             }
         }
+        
+        
+
 
         changeSize_btn.setPreferredSize(new Dimension(80,50));
         playAgain_btn.setPreferredSize(new Dimension(80,50));
@@ -104,6 +107,7 @@ public class View implements ActionListener {
         frame.add(option_panel,BorderLayout.SOUTH);
     }
 
+
     public void actionPerformed(ActionEvent e){
         for(int i = 0; i < tablesize; i++){
             for(int j = 0; j < tablesize; j++){
@@ -117,7 +121,7 @@ public class View implements ActionListener {
                             change_player();
                             textfield.setText("o turn");
                             if(Control.model_control.CheckWin(tablesize,currentPlayer,buttons)){
-                                Control.ButtonEnable(tablesize);
+                                Control.model_control.ButtonEnable(tablesize);
                                 textfield.setForeground(Color.GREEN);
                                 textfield.setText("x wins");
                             }
@@ -131,7 +135,7 @@ public class View implements ActionListener {
                             change_player();
                             textfield.setText("x turn");
                             if(Control.model_control.CheckWin(tablesize,currentPlayer,buttons)){
-                                Control.ButtonEnable(tablesize);
+                                Control.model_control.ButtonEnable(tablesize);
                                 textfield.setForeground(Color.GREEN);
                                 textfield.setText("o wins");
                             }

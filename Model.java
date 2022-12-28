@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
+import java.awt.*;
+
 public class Model {
 
     //method 
@@ -92,5 +94,30 @@ public class Model {
             return true;
         }
         return false;
+    }
+        public static void ResetTable() {
+        for(int i = 0; i < Control.view_control.tablesize; i++){
+            for(int j = 0; j < Control.view_control.tablesize; j++){
+                Control.view_control.buttons[i][j].setEnabled(true);
+                Control.view_control.buttons[i][j].setBackground(new Color(237, 187, 153));
+                Control.view_control.buttons[i][j].setText("");
+            }
+        }
+        Control.view_control.count = 0;
+        Control.view_control.currentPlayer = "x";
+        Control.view_control.textfield.setForeground(Color.BLACK);
+        Control.view_control.textfield.setText("Tic-Tac-Toe");
+        
+    }
+    public static void ExitGame() {
+        System.exit(0); 
+    }
+
+    public static void ButtonEnable(int tablesize){
+        for(int x = 0; x < tablesize; x++){
+            for(int y = 0; y < tablesize; y++){
+                Control.view_control.buttons[x][y].setEnabled(false);
+            }
+        }
     }
 }
