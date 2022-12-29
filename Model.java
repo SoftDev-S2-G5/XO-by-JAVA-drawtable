@@ -52,7 +52,6 @@ public class Model extends Control {
         return false;
     }
 
-
     //Save game
     public void SaveGame(int tableSize,String [][] buttons, String currentPlayer ,int count){
         try {

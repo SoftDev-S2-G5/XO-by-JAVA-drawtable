@@ -6,14 +6,11 @@ public class Control extends JFrame implements MouseListener {
     public static Model model_control = new Model();
     public static View view_control = new View();
 
-    int game_state = 0;
     static String current_player = "x";
     static int count;
-
   
     public static void main(String[] args) {
         view_control.CreateSizeInputScreen();
-
         view_control.playGame_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -60,9 +57,9 @@ public class Control extends JFrame implements MouseListener {
                 List<String> list = model_control.LoadGame();
                 int old_tablesize = Integer.parseInt(list.get(0));
                 if(view_control.table_size == old_tablesize){
-                    view_control.current_player = list.get(2);
-                    view_control.count = Integer.parseInt(list.get(3));
-                    System.out.println(list.get(1));
+                    current_player = list.get(2);
+                    count = Integer.parseInt(list.get(3));
+                    System.out.println("Load " + current_player);
                     char[] XO_list = list.get(1).toCharArray();
                     System.out.println(XO_list);
                     int XO_listDefaulthIndex = 0;
@@ -100,6 +97,7 @@ public class Control extends JFrame implements MouseListener {
         else{
             this.current_player = "x";
         }
+        view_control.header_playerturn.setText(current_player + " turn");
         ++this.count;
     }
 
@@ -119,7 +117,6 @@ public class Control extends JFrame implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         int[] row_col = convert_mousepos(e.getX(),e.getY());
         view_control.AddXO(row_col[0],row_col[1]);
-        repaint();
         if(count == view_control.table_size * view_control.table_size && !model_control.CheckWinner(current_player)){
             JOptionPane.showMessageDialog(null, "Draw", null, JOptionPane.INFORMATION_MESSAGE);
             this.count = 0;
