@@ -51,6 +51,8 @@ public class Control extends JFrame implements MouseListener {
         int[] row_col = convert_mousepos(e.getX(),e.getY());
         view_control.AddXO(row_col[0],row_col[1]);
         repaint();
+        // SaveG();
+        // LoadG();
         if(count == view_control.table_size * view_control.table_size && !model_control.CheckWinner(current_player)){
             JOptionPane.showMessageDialog(null, "Draw", null, JOptionPane.INFORMATION_MESSAGE);
             this.count = 0;
@@ -79,7 +81,35 @@ public class Control extends JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {} 
 //---------------------------------------------------------------------------------------------------------------------------------
-       
+    private void SaveG(){
+        model_control.SaveGame(view_control.table_size, view_control.xo_2d_array, current_player, count);
+    }
+
+    private void LoadG(){
+        List<String> list = model_control.LoadGame();
+        int old_tablesize = Integer.parseInt(list.get(0));
+        if(view_control.table_size == old_tablesize){
+            view_control.current_player = list.get(2);
+            view_control.count = Integer.parseInt(list.get(3));
+            System.out.println(list.get(1));
+            char[] XO_list = list.get(1).toCharArray();
+            System.out.println(XO_list);
+            int XO_listDefaulthIndex = 0;
+            for(int i = 0; i < view_control.table_size ; i++){
+                for(int j = 0; j < view_control.table_size; j++){
+                    if(String.valueOf(XO_list[XO_listDefaulthIndex]).equals("n")){
+                            view_control.xo_2d_array[i][j] = "";
+                    }else{
+                            view_control.xo_2d_array[i][j] = String.valueOf(XO_list[XO_listDefaulthIndex]);
+                        }
+                    XO_listDefaulthIndex += 1;
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Load Finished", null, JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Table size is not the same (Table size must be " + old_tablesize +").", null, JOptionPane.INFORMATION_MESSAGE);
+        }
+}    
     
     private static void ExitGame() {
         System.exit(0); 

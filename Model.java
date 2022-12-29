@@ -51,4 +51,52 @@ public class Model extends Control {
         }
         return false;
     }
+
+
+    //Save game
+    public void SaveGame(int tableSize,String [][] buttons, String currentPlayer ,int count){
+        try {
+            FileWriter writer = new FileWriter(new File("save.txt"));
+            writer.write(String.valueOf(view_control.table_size));
+            writer.write("\n");
+            for(int i = 0; i < view_control.table_size; i++){
+                for(int j = 0; j < view_control.table_size; j++){
+                    if(!buttons[i][j].equals("x") && !buttons[i][j].equals("o")) 
+                    {
+                        writer.write("n");
+                    }else{
+                        writer.write(buttons[i][j]);
+                    }
+                }
+            }
+            writer.write("\n");
+            writer.write(currentPlayer);
+            writer.write("\n");
+            writer.write(String.valueOf(count));
+            writer.write("\n");
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Saved", null, JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Load Game
+    public List<String> LoadGame(){
+        List<String> list = new ArrayList<String>();  
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("save.txt"));
+            String data;
+            while((data = reader.readLine()) != null){
+               list.add(data);
+            }
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static void ExitGame() {
+        System.exit(0); 
+    }
 }

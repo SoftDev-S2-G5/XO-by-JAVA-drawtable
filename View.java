@@ -79,7 +79,7 @@ public class View extends Control{
                 else if(xo_2d_array[i][j].equals("x")){
                     if(game_state == 0){
                         g2d.setColor(Color.red);
-                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 50,(responsive * (i + 1)) - 50); //ok
+                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 50,(table_size * (i + 1)) - 50); //ok
                     }        
                 }
             }
