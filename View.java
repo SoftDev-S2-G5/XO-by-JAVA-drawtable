@@ -7,19 +7,27 @@ public class View extends Control{
     Control control = new Control();
 
     public int table_size;
-    final int screen_size = 800;
+    final int table_panel_size = 600;
+
     String[][] xo_2d_array;
 
     JLabel sizeInput_title_label = new JLabel("Enter size of table");
 
     JButton playGame_btn = new JButton("Play");
+    JButton resetGame_btn = new JButton("Reset");
+    JButton changeSize_btn = new JButton("Size");
+    JButton save_btn = new JButton("Save");
+    JButton load_btn = new JButton("Load");
+    JButton exit_btn = new JButton("Exit");
 
     JFrame size_input_frame = new JFrame();
+    JFrame game_frame = new JFrame();
 
-    JTextField title_txtfield;
     JTextField size_input_txtfield = new JTextField(25);
 
+    JPanel empty_panel = new JPanel();
     JPanel xo_table_panel = new JPanel();
+    JPanel optionButton_panel = new JPanel();
 
     //Create UI window for get tabel size from user
     public void CreateSizeInputScreen(){
@@ -36,50 +44,79 @@ public class View extends Control{
 
     //Create window for draw the table
     public void CreateGameScreen(int size){
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+        this.setSize(700,700);
+
+        empty_panel.setSize(800,500);
+        optionButton_panel.setSize(800,100);
+
         table_size = size;
         Create2DArray();
 
-        this.setTitle("Tic-Tac-Toe Game");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-        this.setResizable(false);
+        changeSize_btn.setPreferredSize(new Dimension(80,40));
+        resetGame_btn.setPreferredSize(new Dimension(80,40));
+        save_btn.setPreferredSize(new Dimension(80,40));
+        load_btn.setPreferredSize(new Dimension(80,40));
+        exit_btn.setPreferredSize(new Dimension(80,40));
 
-        xo_table_panel.setPreferredSize(new Dimension(screen_size, screen_size));
+        optionButton_panel.setBackground(Color.ORANGE);
+        optionButton_panel.add(changeSize_btn);
+        optionButton_panel.add(resetGame_btn);
+        optionButton_panel.add(save_btn);
+        optionButton_panel.add(load_btn);
+        optionButton_panel.add(exit_btn);
+
+        this.setTitle("Tic-Tac-Toe Game");
+
+        xo_table_panel.setPreferredSize(new Dimension(table_panel_size, table_panel_size));
         xo_table_panel.addMouseListener(this);
-        this.add(xo_table_panel);
+        
+        empty_panel.add(xo_table_panel);
+        xo_table_panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.add(empty_panel,BorderLayout.CENTER);
+        this.add(optionButton_panel,BorderLayout.SOUTH);
+        this.setResizable(false);
         this.pack();
         this.setVisible(true);
-
-        title_txtfield = new JTextField();
-        title_txtfield.setBounds(250,300,300,100);
-        title_txtfield.setFont(new Font("Calibri", Font.PLAIN, 50));
-        xo_table_panel.add(title_txtfield);
-        xo_table_panel.setBackground(Color.GRAY);
     }
 
     //Draw table
     public void DrawTable(){
-        int responsive = screen_size / table_size;
+        int responsive = table_panel_size / table_size;
         xo_table_panel.removeAll();
         Graphics2D g2d = (Graphics2D) xo_table_panel.getGraphics();
         g2d.setStroke(new BasicStroke(2));
         for (int i = 0 ; i < table_size ; i++){
             g2d.setColor(Color.black);
-            g2d.drawLine(0, i * responsive, screen_size, i * responsive);
+            g2d.drawLine(0, i * responsive, table_panel_size, i * responsive);
             for (int j = 0 ; j < table_size ; j++){
                 g2d.setColor(Color.black);
-                g2d.drawLine(j * responsive, 0, j * responsive, screen_size);
+                g2d.drawLine(j * responsive, 0, j * responsive, table_panel_size);
                 g2d.setFont(new Font("Calibri", Font.PLAIN, responsive));
                 //Check symbol for color
                 if (xo_2d_array[i][j].equals("o")){
                     if(game_state == 0){
                         g2d.setColor(Color.blue);
-                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 50,(responsive * (i + 1)) - 50); //ok
+                        if(table_size < 10){
+                            System.out.println("less");
+                            g2d.drawString(xo_2d_array[i][j],(responsive * j) + 20,(responsive * (i + 1)) - 20); 
+
+                        }else{
+                            System.out.println("More");
+                            g2d.drawString(xo_2d_array[i][j],(responsive * j) + 5,(responsive * (i + 1)) - 5); 
+                        }
                     }
                 }
                 else if(xo_2d_array[i][j].equals("x")){
                     if(game_state == 0){
                         g2d.setColor(Color.red);
-                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 50,(table_size * (i + 1)) - 50); //ok
+                        if(table_size < 10){
+                            g2d.drawString(xo_2d_array[i][j],(responsive * j) + 20,(responsive * (i + 1)) - 20); //ok
+
+                        }else{
+                            g2d.drawString(xo_2d_array[i][j],(responsive * j) + 5,(responsive * (i + 1)) - 5); //ok
+                        }                    
                     }        
                 }
             }

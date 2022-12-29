@@ -95,8 +95,4 @@ public class Model extends Control {
         }
         return list;
     }
-
-    public static void ExitGame() {
-        System.exit(0); 
-    }
 }
