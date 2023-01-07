@@ -7,7 +7,9 @@ import java.util.*;
 import javax.swing.JOptionPane;
 
 
-public class Model extends Control {
+public class Model {
+
+    Control control = new Control();
 
     //Check user size input
     public boolean CheckSizeInput(String table_size){
@@ -21,8 +23,10 @@ public class Model extends Control {
     
     //Check winner case
     Boolean CheckWinner(String currentPlayer){
-        String[] checker = new String[view_control.table_size];
-        for (int i = 0 ; i < view_control.table_size ; i++){
+        String[][] xo_2d_array = control.GetStringArray();
+        String[] checker = new String[control.GetTableSize()];
+
+        for (int i = 0 ; i < control.GetTableSize() ; i++){
             if(currentPlayer.equals("x")){
                 checker[i] = "o";
             }
@@ -30,21 +34,22 @@ public class Model extends Control {
                 checker[i] = "x";
             }
         }
-        String[] temp_hor = new String[view_control.table_size];
-        String[] temp_ver = new String[view_control.table_size];
-        for (int i = 0 ; i < view_control.table_size ; i++){
-            if(Arrays.deepEquals(checker, view_control.xo_2d_array[i])){ // check row
+        String[] temp_hor = new String[control.GetTableSize()];
+        String[] temp_ver = new String[control.GetTableSize()];
+        for (int i = 0 ; i < control.GetTableSize() ; i++){
+            
+            if(Arrays.deepEquals(checker, xo_2d_array[i])){ // check row
                 return true;
             }
-            String[] temp = new String[view_control.table_size];
-            for (int j = 0 ; j < view_control.table_size ; j++){
-                temp[j] = view_control.xo_2d_array[j][i];
+            String[] temp = new String[control.GetTableSize()];
+            for (int j = 0 ; j < control.GetTableSize() ; j++){
+                temp[j] = xo_2d_array[j][i];
             }
             if(Arrays.deepEquals(checker, temp)){ // check collumn
                 return true;
             }
-            temp_hor[i] = view_control.xo_2d_array[i][i];
-            temp_ver[i] = view_control.xo_2d_array[i][(view_control.table_size - 1) - i];
+            temp_hor[i] = xo_2d_array[i][i];
+            temp_ver[i] = xo_2d_array[i][(control.GetTableSize() - 1) - i];
         }
         if(Arrays.deepEquals(checker, temp_hor) || Arrays.deepEquals(checker, temp_ver)){
             return true;
@@ -56,10 +61,10 @@ public class Model extends Control {
     public void SaveGame(int tableSize,String [][] buttons, String currentPlayer ,int count){
         try {
             FileWriter writer = new FileWriter(new File("save.txt"));
-            writer.write(String.valueOf(view_control.table_size));
+            writer.write(String.valueOf(control.GetTableSize()));
             writer.write("\n");
-            for(int i = 0; i < view_control.table_size; i++){
-                for(int j = 0; j < view_control.table_size; j++){
+            for(int i = 0; i < control.GetTableSize(); i++){
+                for(int j = 0; j < control.GetTableSize(); j++){
                     if(!buttons[i][j].equals("x") && !buttons[i][j].equals("o")) 
                     {
                         writer.write("n");

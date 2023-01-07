@@ -1,150 +1,102 @@
-import java.awt.event.*;
-import java.util.List;
-import javax.swing.*;
+import java.util.Scanner;
 
-public class Control extends JFrame implements MouseListener {
-    public static Model model_control = new Model();
-    public static View view_control = new View();
+public class Control{
+    Scanner scan = new Scanner(System.in);
 
-    static String current_player = "x";
-    static int count;
+    private static Control control = new Control();
+    private static Model model = new Model();
+    private static View view = new View();
+
+    private static String[][] xo_2d_array;
+    private static String current_player = "x";
+    private static int count, table_size;
   
     public static void main(String[] args) {
-        view_control.CreateSizeInputScreen();
-        view_control.playGame_btn.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                if(model_control.CheckSizeInput(view_control.size_input_txtfield.getText())){
-                        view_control.CreateGameScreen(Integer.parseInt(view_control.size_input_txtfield.getText()));  
-                        view_control.size_input_frame.dispose();
-                        view_control.DrawTable();
-                }else{
-                    JOptionPane.showMessageDialog(null, "Please enter number", null, JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-        });
+        try {
+            System.out.print("Insert Table size : ");
+            table_size = control.scan.nextInt();
 
-        view_control.resetGame_btn.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                count = 0;
-                current_player = "x";
-                view_control.Create2DArray();
-                view_control.repaint();
-            }
-        });
-        
-        view_control.changeSize_btn.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                count = 0;
-                current_player = "x";
-                view_control.CreateSizeInputScreen();
-                view_control.dispose();
-            }
-        });
-        
-        view_control.save_btn.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                model_control.SaveGame(view_control.table_size, view_control.xo_2d_array, current_player, count);
-            }
-        });
-    
-        view_control.load_btn.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                List<String> list = model_control.LoadGame();
-                int old_tablesize = Integer.parseInt(list.get(0));
-                if(view_control.table_size == old_tablesize){
-                    current_player = list.get(2);
-                    count = Integer.parseInt(list.get(3));
-                    System.out.println("Load " + current_player);
-                    char[] XO_list = list.get(1).toCharArray();
-                    System.out.println(XO_list);
-                    int XO_listDefaulthIndex = 0;
-                    for(int i = 0; i < view_control.table_size ; i++){
-                        for(int j = 0; j < view_control.table_size; j++){
-                            if(String.valueOf(XO_list[XO_listDefaulthIndex]).equals("n")){
-                                    view_control.xo_2d_array[i][j] = "";
-                            }else{
-                                    view_control.xo_2d_array[i][j] = String.valueOf(XO_list[XO_listDefaulthIndex]);
-                                }
-                            XO_listDefaulthIndex += 1;
-                        }
-                    }
-                    view_control.repaint();
-                    JOptionPane.showMessageDialog(null, "Load Finished", null, JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Table size is not the same (Table size must be " + old_tablesize +").", null, JOptionPane.INFORMATION_MESSAGE);
+            xo_2d_array = new String[table_size][table_size];
+            control.Create2DString();
+            view.CreateTable(table_size);
+            for(int i = 0 ; i < table_size * table_size ; i++){
+                if(!model.CheckWinner(current_player)){
+                    control.GamePlay();
                 }
             }
-        });
-            
-        view_control.exit_btn.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                System.exit(0);
-            }
-        });
+        } catch (Exception e) {
+            System.out.println("Table size must be integer");
+        }
+        
     }            
 
+    public int GetTableSize(){
+        return table_size;
+    }
 
-    public void ChangeCurrentPlayer(){
-        if (this.current_player.equals("x")){
-            this.current_player = "o";
+    public String GetCurrentPlayer(){
+        return current_player;
+    }
+
+    public String[][] GetStringArray(){
+        return xo_2d_array;
+    }
+
+    private void ChangeCurrentPlayer(){
+        if (Control.current_player.equals("x")){
+            Control.current_player = "o";
         }
         else{
-            this.current_player = "x";
+            Control.current_player = "x";
         }
-        view_control.header_playerturn.setText(current_player + " turn");
-        ++this.count;
+        Control.count += 1;
     }
 
-    private int[] convert_mousepos(int mouse_x,int mouse_y){
-        int[] row_col = {(int)mouse_y/(view_control.table_panel_size / view_control.table_size), (int)mouse_x/(view_control.table_panel_size / view_control.table_size)};
-        return row_col;
-    }
-
-    public void UpdateTable(){
-        repaint();
-    }
-
-
-
-//-- Mouse Event Handler -------------------------------------------------------------------------------------------------------------------
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        int[] row_col = convert_mousepos(e.getX(),e.getY());
-        view_control.AddXO(row_col[0],row_col[1]);
-        if(count == view_control.table_size * view_control.table_size && !model_control.CheckWinner(current_player)){
-            JOptionPane.showMessageDialog(null, "Draw", null, JOptionPane.INFORMATION_MESSAGE);
-            this.count = 0;
-            this.current_player = "x";
-            view_control.Create2DArray();
-            repaint();
-        }else if(model_control.CheckWinner(current_player)){
-            if(current_player.equals("x")){
-                JOptionPane.showMessageDialog(null, "Player O Win", null, JOptionPane.INFORMATION_MESSAGE);
-
-            }else{
-                JOptionPane.showMessageDialog(null, "Player X Win", null, JOptionPane.INFORMATION_MESSAGE);
+    private void Create2DString(){
+        for(int i = 0 ; i < table_size ; i++){
+            for(int j = 0 ; j < table_size ; j++){
+                xo_2d_array[i][j] = " ";
             }
-            this.count = 0;
-            this.current_player = "x";
-            view_control.Create2DArray();
-            repaint();
         }
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {}
-    @Override
-    public void mousePressed(MouseEvent e) {}
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-    @Override
-    public void mouseExited(MouseEvent e) {} 
-//---------------------------------------------------------------------------------------------------------------------------------
-}
+    private void GamePlay(){
+        try {
+            System.out.println("Where would you like to play? (" + current_player + " turn)");
+            System.out.print("Row : ");
+            int row = scan.nextInt();
+            System.out.print("Column : ");
+            int column = scan.nextInt();
 
+            if(row < table_size && column < table_size){
+                if(view.AddXO(row,column)){
+                    control.ChangeCurrentPlayer();
+                }else{
+                    System.out.println("Row : " + row + " | Column : " + column + " Already used.");
+                }
+                view.CreateTable(table_size);
+                if(count == table_size * table_size && !model.CheckWinner(current_player)){
+                    System.out.println("------------------------------- Draw -------------------------------");
+                }else if(model.CheckWinner(current_player)){
+                    if (current_player.equals("o")) {
+                        System.out.println("------------------------------- Player X Win -------------------------------");
+                    }
+                    else{
+                        System.out.println("------------------------------- Player O Win -------------------------------");
+                    }
+                }
+            }
+            else{
+                if(row >= table_size){
+                    System.out.println("Row must less than " + table_size);
+
+                }else{
+                    System.out.println("Column must less than " + table_size);
+
+                }
+            }    
+        } catch (Exception e) {
+            System.out.println("Row and Column must be integer");
+        }
+    }
+}
