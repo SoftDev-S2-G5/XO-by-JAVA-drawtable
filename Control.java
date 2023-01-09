@@ -17,7 +17,7 @@ public class Control{
             table_size = control.scan.nextInt();
 
             xo_2d_array = new String[table_size][table_size];
-            control.Create2DString();
+            control.Create2DString(); //NULL VALUE IN TABLE
             view.CreateTable(table_size);
             for(int i = 0 ; i < table_size * table_size ; i++){
                 if(!model.CheckWinner(current_player)){
@@ -65,28 +65,26 @@ public class Control{
             System.out.println("Where would you like to play? (" + current_player + " turn)");
             System.out.print("Row : ");
             int row = scan.nextInt();
+            row -=1;
             System.out.print("Column : ");
             int column = scan.nextInt();
-
-            if(row < table_size && column < table_size){
+            column -=1;
+            if(row < table_size && column < table_size && !(row <= -1) && !(column <= -1)){ //to check input
                 if(view.AddXO(row,column)){
                     control.ChangeCurrentPlayer();
                 }else{
                     System.out.println("Row : " + row + " | Column : " + column + " Already used.");
                 }
-                view.CreateTable(table_size);
-                if(count == table_size * table_size && !model.CheckWinner(current_player)){
-                    System.out.println("------------------------------- Draw -------------------------------");
-                }else if(model.CheckWinner(current_player)){
-                    if (current_player.equals("o")) {
-                        System.out.println("------------------------------- Player X Win -------------------------------");
-                    }
-                    else{
-                        System.out.println("------------------------------- Player O Win -------------------------------");
-                    }
+                //Regenerate
+                view.CreateTable(table_size); 
+                if (current_player.equals("o")) {
+                    System.out.println("------------------------------- Player X Win -------------------------------");
+                }
+                else{
+                    System.out.println("------------------------------- Player O Win -------------------------------");
                 }
             }
-            else{
+            else{ //alert invalid
                 if(row >= table_size){
                     System.out.println("Row must less than " + table_size);
 
