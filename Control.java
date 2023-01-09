@@ -19,10 +19,8 @@ public class Control{
             xo_2d_array = new String[table_size][table_size];
             control.Create2DString(); //NULL VALUE IN TABLE
             view.CreateTable(table_size);
-            for(int i = 0 ; i < table_size * table_size ; i++){
-                if(!model.CheckWinner(current_player)){
-                    control.GamePlay();
-                }
+            while(!model.CheckWinner(current_player) && count != table_size * table_size){ // note: have winner? and count = size of table
+                control.GamePlay();
             }
         } catch (Exception e) {
             System.out.println("Table size must be integer");
@@ -77,20 +75,24 @@ public class Control{
                 }
                 //Regenerate
                 view.CreateTable(table_size); 
-                if (current_player.equals("o")) {
+                if(count == table_size * table_size && !model.CheckWinner(current_player)){  //T and !(F) = T
+                    System.out.println("------------------------------- Draw -------------------------------");
+                }else if(model.CheckWinner(current_player) && current_player.equals("o")){ 
                     System.out.println("------------------------------- Player X Win -------------------------------");
-                }
-                else{
+                }else if(model.CheckWinner(current_player) && current_player.equals("x")){
                     System.out.println("------------------------------- Player O Win -------------------------------");
                 }
             }
             else{ //alert invalid
-                if(row >= table_size){
-                    System.out.println("Row must less than " + table_size);
-
-                }else{
-                    System.out.println("Column must less than " + table_size);
-
+                if(row >= table_size ){
+                    System.out.println("Row must less than :" + table_size);
+                }if(row <=-1){
+                    System.out.println("Row must more than :0");
+                }if(column >= table_size ){
+                    System.out.println("Column must less than :" + table_size);
+                }
+                if (column <=-1){
+                    System.out.println("Column must more than :0");
                 }
             }    
         } catch (Exception e) {
