@@ -1,27 +1,31 @@
 import java.awt.event.*;
-import java.util.List;
 import javax.swing.*;
-import java.awt.*;
 
-public class Control extends JFrame implements MouseListener {
-    public static Control control = new Control();
-    public static Model model = new Model();
-    public static View view = new View();
-  
+public class Control implements MouseListener {
+    private Model model = new Model();
+    private View view = new View();
+    
     public static void main(String[] args) {
+        Control control = new Control();
+        control.GameStart(control);
+    }   
+
+    public void GameStart(Control control){
+        view.SetControlObject(control);
         view.CreateSizeInputScreen();
         view.playGame_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                if(model.CheckSizeInput(view.GetTableSize())){
+                if(CheckIntInput(view.GetTableSize())){
                         model.SetTableSize(Integer.parseInt(view.GetTableSize()));
                        if(model.GetMode() == 0){
-                            control.AddListener();
+                            AddListener();
                        }
-                        view.CreateGameScreen(model.GetTableSize());  
+                        view.CreateGameScreen(model.GetCurrentPlayer()); 
+                        model.SetTableSize(Integer.parseInt(view.GetTableSize())); 
                         model.CreateEmptyArray();
                         view.size_input_frame.dispose();
-                        view.DrawTable();
+                        view.repaint();
                 }else{
                     JOptionPane.showMessageDialog(null, "Please enter number", null, JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -34,7 +38,7 @@ public class Control extends JFrame implements MouseListener {
                 model.SetCount(0);
                 model.SetCurrentPlayer("x");
                 model.CreateEmptyArray();
-                control.repaint();
+                view.repaint();
             }
         });
         
@@ -44,7 +48,7 @@ public class Control extends JFrame implements MouseListener {
                 model.SetCount(0);
                 model.SetCurrentPlayer("x");
                 model.SetMode(1);
-                control.dispose();
+                view.dispose();
                 view.CreateSizeInputScreen();
             }
         });
@@ -52,36 +56,15 @@ public class Control extends JFrame implements MouseListener {
         view.save_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                model.SaveGame(model.GetTableSize(), model.GetXOArray(), model.GetCurrentPlayer(), model.GetCount());
+                model.SaveGame();
             }
         });
     
         view.load_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                int table_size = model.GetTableSize();
-
-                List<String> list = model.LoadGame();
-                int old_tablesize = Integer.parseInt(list.get(0));
-                if(table_size == old_tablesize){
-                    model.SetCurrentPlayer(list.get(2));
-                    model.SetCount(Integer.parseInt(list.get(3)));
-                    char[] XO_list = list.get(1).toCharArray();
-                    int XO_listDefaulthIndex = 0;
-                    for(int i = 0; i < table_size ; i++){
-                        for(int j = 0; j < table_size ; j++){
-                            if(String.valueOf(XO_list[XO_listDefaulthIndex]).equals("n")){
-                                model.SetXOArray(i, j, "");   
-                            }else{
-                                model.SetXOArray(i, j, String.valueOf(XO_list[XO_listDefaulthIndex]));   
-                            }
-                            XO_listDefaulthIndex += 1;
-                        }
-                    }
-                    control.repaint();
-                    JOptionPane.showMessageDialog(null, "Load Finished", null, JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Table size is not the same (Table size must be " + old_tablesize +").", null, JOptionPane.INFORMATION_MESSAGE);
+                if(model.LoadGame()){
+                    view.repaint();
                 }
             }
         });
@@ -92,7 +75,7 @@ public class Control extends JFrame implements MouseListener {
                 System.exit(0);
             }
         });
-    }   
+    }
 
     public void AddListener(){
         view.GetPanelObject().addMouseListener(this);
@@ -114,15 +97,19 @@ public class Control extends JFrame implements MouseListener {
         return model.GetCurrentPlayer();
     }
 
-
-    public void paint(Graphics g){
-        super.paint(g);
-        view.DrawTable();
-    }
-
     private int[] convert_mousepos(int mouse_x,int mouse_y){
         int[] row_col = {(int)mouse_y/(view.GetPanelSize() / model.GetTableSize()), (int)mouse_x/(view.GetPanelSize() / model.GetTableSize())};
         return row_col;
+    }
+
+    // Check user size input
+    public boolean CheckIntInput(String table_size) {
+        try {
+            Integer.parseInt(table_size);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 //-- Mouse Event Handler -------------------------------------------------------------------------------------------------------------------
@@ -131,18 +118,18 @@ public class Control extends JFrame implements MouseListener {
         int table_size = model.GetTableSize();
         int[] row_col = convert_mousepos(e.getX(),e.getY());
 
-        if(view.AddXO(row_col[0],row_col[1])){
+        if(model.AddXO(row_col[0],row_col[1])){
             model.ChangeCurrentPlayer();
-            view.Update();
+            view.repaint();
         }
 
-        if(model.GetCount() == table_size * table_size && !model.CheckWinner(model.GetCurrentPlayer())){
+        if(model.GetCount() == table_size * table_size && !model.CheckWinner()){
             JOptionPane.showMessageDialog(null, "Draw", null, JOptionPane.INFORMATION_MESSAGE);
             model.SetCount(0);
             model.SetCurrentPlayer("x");
             model.CreateEmptyArray();
-            view.Update();
-        }else if(model.CheckWinner(model.GetCurrentPlayer())){
+            view.repaint();
+        }else if(model.CheckWinner()){
             if(model.GetCurrentPlayer().equals("x")){
                 JOptionPane.showMessageDialog(null, "Player O Win", null, JOptionPane.INFORMATION_MESSAGE);
             }
@@ -152,7 +139,7 @@ public class Control extends JFrame implements MouseListener {
             model.SetCount(0);
             model.SetCurrentPlayer("x");
             model.CreateEmptyArray();
-            view.Update();
+            view.repaint();
         }
     }
 

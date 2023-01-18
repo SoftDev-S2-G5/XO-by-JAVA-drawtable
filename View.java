@@ -1,10 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class View{
-
-    Control control = new Control();
-
+public class View extends JFrame {
+    private Control control;
     private int table_panel_size = 600;
 
     JLabel sizeInput_title_label = new JLabel("Enter size of table");
@@ -41,21 +39,19 @@ public class View{
     }
 
     //Create window for draw the table
-    public void CreateGameScreen(int size){
-        control.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        control.setLayout(new BorderLayout());
-        control.setSize(700,700);
+    public void CreateGameScreen(String current_player){
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+        this.setSize(700,700);
 
         empty_panel.setSize(800,500);
         optionButton_panel.setSize(800,100);
-
-        control.SetTableSize(size);
 
         header_playerturn.setBackground(Color.pink);
         header_playerturn.setForeground(Color.BLACK);
         header_playerturn.setFont(new Font(Font.SANS_SERIF,Font.BOLD,30));
         header_playerturn.setHorizontalAlignment(JLabel.CENTER);
-        header_playerturn.setText(control.GetCurrentPlayer() + " turn");
+        header_playerturn.setText(current_player + " turn");
         header_playerturn.setOpaque(true);
 
         changeSize_btn.setPreferredSize(new Dimension(80,40));
@@ -71,27 +67,28 @@ public class View{
         optionButton_panel.add(load_btn);
         optionButton_panel.add(exit_btn);
 
-        control.setTitle("Tic-Tac-Toe Game");
+        this.setTitle("Tic-Tac-Toe Game");
 
         xo_table_panel.setPreferredSize(new Dimension(table_panel_size, table_panel_size));
         
         empty_panel.add(xo_table_panel);
         xo_table_panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        control.add(header_playerturn,BorderLayout.NORTH);
-        control.add(empty_panel,BorderLayout.CENTER);
-        control.add(optionButton_panel,BorderLayout.SOUTH);
-        control.setResizable(true);
-        control.pack();
-        control.setLocationRelativeTo(null);
-        control.setVisible(true);
+        this.add(header_playerturn,BorderLayout.NORTH);
+        this.add(empty_panel,BorderLayout.CENTER);
+        this.add(optionButton_panel,BorderLayout.SOUTH);
+        this.setResizable(true);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     //Draw table
     public void DrawTable(){
         String[][] xo_2d_array = control.GetXOArray();
+        String current_player = control.GetCurrentPlayer();
         int table_size = control.GetTableSize();
 
-        header_playerturn.setText(control.GetCurrentPlayer() + " turn");
+        header_playerturn.setText(current_player + " turn");
         int responsive = table_panel_size / table_size;
         xo_table_panel.removeAll();
         Graphics2D g2d = (Graphics2D) xo_table_panel.getGraphics();
@@ -106,7 +103,7 @@ public class View{
                 //Check symbol for color
                 if (xo_2d_array[i][j].equals("o")){
                     g2d.setColor(Color.blue);
-                    if(table_size < 10){
+                    if(control.GetTableSize() < 10){
                         g2d.drawString(xo_2d_array[i][j],(responsive * j) + 20,(responsive * (i + 1)) - 20); 
                     }else{
                         g2d.drawString(xo_2d_array[i][j],(responsive * j) + 5,(responsive * (i + 1)) - 5); 
@@ -114,30 +111,13 @@ public class View{
                 }
                 else if(xo_2d_array[i][j].equals("x")){
                     g2d.setColor(Color.red);
-                    if(table_size < 10){
+                    if(control.GetTableSize() < 10){
                         g2d.drawString(xo_2d_array[i][j],(responsive * j) + 20,(responsive * (i + 1)) - 20); 
                     }else{
                         g2d.drawString(xo_2d_array[i][j],(responsive * j) + 5,(responsive * (i + 1)) - 5);
                     }                    
                 }
             }
-        }
-    }
-    
-
-    public boolean AddXO(Integer row,Integer col) {
-        String[][] xo_2d_array = control.GetXOArray();
-
-        if(xo_2d_array[row][col] == "x" || xo_2d_array[row][col] == "o"){
-            return false;
-        } else {
-            if(control.GetCurrentPlayer().equals("x")){
-                xo_2d_array[row][col] = "x";
-            }
-            else{
-                xo_2d_array[row][col] = "o";
-            }
-            return true;
         }
     }
     
@@ -153,7 +133,12 @@ public class View{
         return xo_table_panel;
     }
 
-    public void Update(){
-        control.repaint();
+    public void paint(Graphics g){
+        super.paint(g);
+        DrawTable();
+    }
+
+    public void SetControlObject(Control control){
+        this.control = control;
     }
 }
