@@ -7,109 +7,102 @@ import java.util.*;
 import javax.swing.JOptionPane;
 
 public class Model {
-    private String[][] xo_2d_array;
-    private String current_player = "x";
-    private int count, table_size;
-    private int mode = 0;
+    private String[][] board;
+    private String player = "X";
+    private int turn, board_lenght;
 
-    public int GetMode() {
-        return mode;
+    public int get_turn() {
+        return turn;
     }
 
-    public void SetMode(int mode) {
-        this.mode += mode;
+    public String get_player() {
+        return player;
     }
 
-    public int GetTableSize() {
-        return table_size;
+    public String get_valueOFboard(int row, int column) {
+        return board[row][column];
     }
 
-    public void SetTableSize(int table_size) {
-        this.table_size = table_size;
-    }
-
-    public int GetCount() {
-        return count;
-    }
-
-    public void SetCount(int count) {
-        this.count = count;
-    }
-
-    public String GetCurrentPlayer() {
-        return current_player;
-    }
-
-    public void SetCurrentPlayer(String current_player) {
-        this.current_player = current_player;
-    }
-
-    public String[][] GetXOArray() {
-        return xo_2d_array;
-    }
-
-    public void SetXOArray(int x, int y, String value) {
-        this.xo_2d_array[x][y] = value;
-    }
-
-    public void ChangeCurrentPlayer() {
-        if (this.current_player.equals("x")) {
-            this.current_player = "o";
-        } else {
-            this.current_player = "x";
-        }
-        this.count += 1;
+    public void change_valueOFboard(int row, int column, String value) {
+        this.board[row][column] = value;
     }
 
     public void CreateEmptyArray() {
-        xo_2d_array = new String[table_size][table_size];
-        for (int i = 0; i < table_size; i++) {
-            for (int j = 0; j < table_size; j++) {
-                xo_2d_array[i][j] = " ";
+        board = new String[board_lenght][board_lenght];
+        for (int i = 0; i < board_lenght; i++) {
+            for (int j = 0; j < board_lenght; j++) {
+                board[i][j] = " ";
             }
         }
     }
 
     public boolean AddXO(int row, int col) {
-        if (xo_2d_array[row][col] == "x" || xo_2d_array[row][col] == "o") {
+        if (board[row][col] == "X" || board[row][col] == "O") {
             return false;
         } else {
-            if (current_player.equals("x")) {
-                xo_2d_array[row][col] = "x";
+            if (player.equals("X")) {
+                board[row][col] = "X";
             } else {
-                xo_2d_array[row][col] = "o";
+                board[row][col] = "O";
             }
             return true;
         }
     }
 
+    public int get_size(){
+        return this.board_lenght;
+    }
+
+    public int get_board_lenght(){
+        return this.board_lenght;
+    }
+
+    public void set_board_lenght(int lenght){
+        this.board_lenght = lenght;
+    }
+
+    public void Newgame(){
+        this.player = "X";
+        this.turn = 0;
+        CreateEmptyArray();
+    }
+
+    public void Action(){
+        if (this.player.equals("X")) {
+            this.player = "O";
+        } else {
+            this.player = "X";
+        }
+        this.turn += 1;
+    }
+
     // Check winner case
     Boolean CheckWinner() {
-        String[] checker = new String[table_size];
+        String[] checker = new String[board_lenght];
 
-        for (int i = 0; i < table_size; i++) {
-            if (current_player.equals("x")) {
-                checker[i] = "o";
+        for (int i = 0; i < board_lenght; i++) {
+            if (player.equals("X")) {
+                checker[i] = "O";
             } else {
-                checker[i] = "x";
+                checker[i] = "X";
             }
         }
-        String[] temp_hor = new String[table_size];
-        String[] temp_ver = new String[table_size];
-        for (int i = 0; i < table_size; i++) {
+        String[] temp_hor = new String[board_lenght];
+        String[] temp_ver = new String[board_lenght];
+        for (int i = 0; i < board_lenght; i++) {
 
-            if (Arrays.deepEquals(checker, xo_2d_array[i])) { // check row
+            if (Arrays.deepEquals(checker, board[i])) { // check row
                 return true;
             }
-            String[] temp = new String[table_size];
-            for (int j = 0; j < table_size; j++) {
-                temp[j] = xo_2d_array[j][i];
+            String[] temp = new String[board_lenght];
+            for (int j = 0; j < board_lenght; j++) {
+                temp[j] = board[j][i];
             }
             if (Arrays.deepEquals(checker, temp)) { // check collumn
                 return true;
             }
-            temp_hor[i] = xo_2d_array[i][i];
-            temp_ver[i] = xo_2d_array[i][(table_size - 1) - i];
+            temp_hor[i] = board[i][i];
+            temp_ver[i] = board[i][(board_lenght - 1) - i];
         }
         if (Arrays.deepEquals(checker, temp_hor) || Arrays.deepEquals(checker, temp_ver)) {
             return true;
@@ -121,21 +114,21 @@ public class Model {
     public void SaveGame() {
         try {
             FileWriter writer = new FileWriter(new File("save.txt"));
-            writer.write(String.valueOf(table_size));
+            writer.write(String.valueOf(board_lenght));
             writer.write("\n");
-            for (int i = 0; i < table_size; i++) {
-                for (int j = 0; j < table_size; j++) {
-                    if (!xo_2d_array[i][j].equals("x") && !xo_2d_array[i][j].equals("o")) {
+            for (int i = 0; i < board_lenght; i++) {
+                for (int j = 0; j < board_lenght; j++) {
+                    if (!board[i][j].equals("X") && !board[i][j].equals("O")) {
                         writer.write("n");
                     } else {
-                        writer.write(xo_2d_array[i][j]);
+                        writer.write(board[i][j].toLowerCase());
                     }
                 }
             }
             writer.write("\n");
-            writer.write(current_player);
+            writer.write(player);
             writer.write("\n");
-            writer.write(String.valueOf(count));
+            writer.write(String.valueOf(turn));
             writer.write("\n");
             writer.close();
             JOptionPane.showMessageDialog(null, "Saved", null, JOptionPane.INFORMATION_MESSAGE);
@@ -157,20 +150,20 @@ public class Model {
             e.printStackTrace();
         }
 
-        int table_size = GetTableSize();
-
-        int old_tablesize = Integer.parseInt(list.get(0));
-        if (table_size == old_tablesize) {
-            SetCurrentPlayer(list.get(2));
-            SetCount(Integer.parseInt(list.get(3)));
+        int old_board_lenght = Integer.parseInt(list.get(0));
+        if (this.board_lenght == old_board_lenght) {
+            this.player = list.get(2);
+            this.turn = (Integer.parseInt(list.get(3)));
             char[] XO_list = list.get(1).toCharArray();
             int XO_listDefaulthIndex = 0;
-            for (int i = 0; i < table_size; i++) {
-                for (int j = 0; j < table_size; j++) {
+            for (int i = 0; i < this.board_lenght; i++) {
+                for (int j = 0; j < this.board_lenght ; j++) {
                     if (String.valueOf(XO_list[XO_listDefaulthIndex]).equals("n")) {
-                        SetXOArray(i, j, "");
+                        System.out.println("n");
+                        change_valueOFboard(i, j, " ");
                     } else {
-                        SetXOArray(i, j, String.valueOf(XO_list[XO_listDefaulthIndex]));
+                        System.out.println(XO_list[XO_listDefaulthIndex]);
+                        change_valueOFboard(i, j, String.valueOf(XO_list[XO_listDefaulthIndex]).toUpperCase());
                     }
                     XO_listDefaulthIndex += 1;
                 }
@@ -179,7 +172,7 @@ public class Model {
             return true;
         } else {
             JOptionPane.showMessageDialog(null,
-                    "Table size is not the same (Table size must be " + old_tablesize + ").", null,
+                    "Table size is not the same (Table size must be " + old_board_lenght + ").", null,
                     JOptionPane.INFORMATION_MESSAGE);
             return false;
         }

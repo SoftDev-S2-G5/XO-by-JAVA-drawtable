@@ -84,11 +84,11 @@ public class View extends JFrame {
 
     //Draw table
     public void DrawTable(){
-        String[][] xo_2d_array = control.GetXOArray();
-        String current_player = control.GetCurrentPlayer();
-        int table_size = control.GetTableSize();
+        String value;
+        String player = control.get_player();
+        int table_size = control.get_board_lenght();
 
-        header_playerturn.setText(current_player + " turn");
+        header_playerturn.setText(player + " turn");
         int responsive = table_panel_size / table_size;
         xo_table_panel.removeAll();
         Graphics2D g2d = (Graphics2D) xo_table_panel.getGraphics();
@@ -99,22 +99,23 @@ public class View extends JFrame {
             for (int j = 0 ; j < table_size ; j++){
                 g2d.setColor(Color.black);
                 g2d.drawLine(j * responsive, 0, j * responsive, table_panel_size);
-                g2d.setFont(new Font("Calibri", Font.PLAIN, responsive));
+                g2d.setFont(new Font("Calibri", Font.PLAIN, responsive - 10));
                 //Check symbol for color
-                if (xo_2d_array[i][j].equals("o")){
+                value = control.get_valueOFboard(i, j);
+                if (value.equals("O")){
                     g2d.setColor(Color.blue);
-                    if(control.GetTableSize() < 10){
-                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 20,(responsive * (i + 1)) - 20); 
+                    if(table_size < 10){
+                        g2d.drawString(value,(responsive * j) + 20,(responsive * (i + 1)) - 20); 
                     }else{
-                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 5,(responsive * (i + 1)) - 5); 
+                        g2d.drawString(value,(responsive * j) + 5,(responsive * (i + 1)) - 5); 
                     }
                 }
-                else if(xo_2d_array[i][j].equals("x")){
+                else if(value.equals("X")){
                     g2d.setColor(Color.red);
-                    if(control.GetTableSize() < 10){
-                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 20,(responsive * (i + 1)) - 20); 
+                    if(table_size < 10){
+                        g2d.drawString(value,(responsive * j) + 20,(responsive * (i + 1)) - 20); 
                     }else{
-                        g2d.drawString(xo_2d_array[i][j],(responsive * j) + 5,(responsive * (i + 1)) - 5);
+                        g2d.drawString(value,(responsive * j) + 5,(responsive * (i + 1)) - 5);
                     }                    
                 }
             }

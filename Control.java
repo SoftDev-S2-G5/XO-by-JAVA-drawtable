@@ -2,27 +2,31 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Control implements MouseListener {
-    private Model model = new Model();
-    private View view = new View();
+    private Model model;
+    private View view;
+
+    Control(Model model, View view){
+        this.model = model;
+        this.view = view;
+        AddListener();
+        GameStart();
+    }
     
     public static void main(String[] args) {
-        Control control = new Control();
-        control.GameStart(control);
+        Model model = new Model();
+        View view = new View();
+        Control control = new Control(model,view);
+        view.SetControlObject(control);
     }   
 
-    public void GameStart(Control control){
-        view.SetControlObject(control);
+    public void GameStart(){
         view.CreateSizeInputScreen();
         view.playGame_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
                 if(CheckIntInput(view.GetTableSize())){
-                        model.SetTableSize(Integer.parseInt(view.GetTableSize()));
-                       if(model.GetMode() == 0){
-                            AddListener();
-                       }
-                        view.CreateGameScreen(model.GetCurrentPlayer()); 
-                        model.SetTableSize(Integer.parseInt(view.GetTableSize())); 
+                        model.set_board_lenght(Integer.parseInt(view.GetTableSize()));
+                        view.CreateGameScreen(model.get_player()); 
                         model.CreateEmptyArray();
                         view.size_input_frame.dispose();
                         view.repaint();
@@ -35,9 +39,7 @@ public class Control implements MouseListener {
         view.resetGame_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                model.SetCount(0);
-                model.SetCurrentPlayer("x");
-                model.CreateEmptyArray();
+                model.Newgame();
                 view.repaint();
             }
         });
@@ -45,9 +47,7 @@ public class Control implements MouseListener {
         view.changeSize_btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                model.SetCount(0);
-                model.SetCurrentPlayer("x");
-                model.SetMode(1);
+                model.Newgame();
                 view.dispose();
                 view.CreateSizeInputScreen();
             }
@@ -80,25 +80,29 @@ public class Control implements MouseListener {
     public void AddListener(){
         view.GetPanelObject().addMouseListener(this);
     }
+
+    public String get_player(){
+        return model.get_player();
+    }
     
-    public String[][] GetXOArray(){
-        return model.GetXOArray();
+    public String get_valueOFboard(int row, int column) {
+        return model.get_valueOFboard(row, column);
     }
 
-    public int GetTableSize(){
-        return model.GetTableSize();
+    public void change_valueOFboard(int row, int column, String value) {
+        model.change_valueOFboard(row, column, value);
     }
 
-    public void SetTableSize(int table_size){
-        model.SetTableSize(table_size);
+    public int get_board_lenght(){
+        return model.get_board_lenght();
     }
 
-    public String GetCurrentPlayer(){
-        return model.GetCurrentPlayer();
+    public void set_board_lenght(int table_size){
+        model.set_board_lenght(table_size);
     }
 
     private int[] convert_mousepos(int mouse_x,int mouse_y){
-        int[] row_col = {(int)mouse_y/(view.GetPanelSize() / model.GetTableSize()), (int)mouse_x/(view.GetPanelSize() / model.GetTableSize())};
+        int[] row_col = {(int)mouse_y/(view.GetPanelSize() / model.get_board_lenght()), (int)mouse_x/(view.GetPanelSize() / model.get_board_lenght())};
         return row_col;
     }
 
@@ -115,30 +119,25 @@ public class Control implements MouseListener {
 //-- Mouse Event Handler -------------------------------------------------------------------------------------------------------------------
     @Override
     public void mouseReleased(MouseEvent e) {
-        int table_size = model.GetTableSize();
+        int table_size = model.get_board_lenght();
         int[] row_col = convert_mousepos(e.getX(),e.getY());
 
         if(model.AddXO(row_col[0],row_col[1])){
-            model.ChangeCurrentPlayer();
+            model.Action();
             view.repaint();
         }
-
-        if(model.GetCount() == table_size * table_size && !model.CheckWinner()){
+        if(model.get_turn() == table_size * table_size && !model.CheckWinner()){
             JOptionPane.showMessageDialog(null, "Draw", null, JOptionPane.INFORMATION_MESSAGE);
-            model.SetCount(0);
-            model.SetCurrentPlayer("x");
-            model.CreateEmptyArray();
+            model.Newgame();
             view.repaint();
         }else if(model.CheckWinner()){
-            if(model.GetCurrentPlayer().equals("x")){
+            if(model.get_player().equals("X")){
                 JOptionPane.showMessageDialog(null, "Player O Win", null, JOptionPane.INFORMATION_MESSAGE);
             }
             else{
                 JOptionPane.showMessageDialog(null, "Player X Win", null, JOptionPane.INFORMATION_MESSAGE);
             }
-            model.SetCount(0);
-            model.SetCurrentPlayer("x");
-            model.CreateEmptyArray();
+            model.Newgame();
             view.repaint();
         }
     }
