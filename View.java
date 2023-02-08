@@ -86,7 +86,7 @@ public class View extends JFrame {
     public void DrawTable(){
         String value;
         String player = control.get_player();
-        int table_size = control.get_board_lenght();
+        int table_size = control.get_size();
 
         header_playerturn.setText(player + " turn");
         int responsive = table_panel_size / table_size;

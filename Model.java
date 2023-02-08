@@ -1,108 +1,120 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class Model {
+    public int gameMode;
+
+    private int fontsize = 100;
     private String[][] board;
-    private String player = "X";
-    private int turn, board_lenght;
+    private String currentPlayer = "X";
+    private int turn, size;
+    private boolean checkwin = false;
 
     public int get_turn() {
         return turn;
     }
 
+    public void change_turn(String value) {
+        currentPlayer = value;
+        turn += 1;
+    }
+
     public String get_player() {
-        return player;
+        return currentPlayer;
     }
 
-    public String get_valueOFboard(int row, int column) {
-        return board[row][column];
+    public String get_valueOFboard(int row, int col) {
+        return board[row][col];
     }
 
-    public void change_valueOFboard(int row, int column, String value) {
-        this.board[row][column] = value;
+    public void change_valueOFboard(int row, int col, String value) {
+        this.board[row][col] = value;
     }
 
-    public void CreateEmptyArray() {
-        board = new String[board_lenght][board_lenght];
-        for (int i = 0; i < board_lenght; i++) {
-            for (int j = 0; j < board_lenght; j++) {
+    public boolean get_checkwin_variable() {
+        return checkwin;
+    }
+
+    private void change_checkwin_variable(boolean X) {
+        checkwin = X;
+    }
+
+    public void change_gamemode(int value) {
+        gameMode = value;
+    }
+
+    public void create_board() {
+        board = new String[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 board[i][j] = " ";
             }
         }
     }
-
-    public boolean AddXO(int row, int col) {
-        if (board[row][col] == "X" || board[row][col] == "O") {
-            return false;
-        } else {
-            if (player.equals("X")) {
-                board[row][col] = "X";
-            } else {
-                board[row][col] = "O";
-            }
-            return true;
-        }
+    public int getfontsize() {
+        return fontsize;
     }
 
-    public int get_size(){
-        return this.board_lenght;
+    public int get_size() {
+        return size;
     }
 
-    public int get_board_lenght(){
-        return this.board_lenght;
+    public void set_size(int size) {
+        this.size = size;
     }
 
-    public void set_board_lenght(int lenght){
-        this.board_lenght = lenght;
-    }
-
-    public void Newgame(){
-        this.player = "X";
+    public void resetgame(){
+        this.currentPlayer = "X";
         this.turn = 0;
-        CreateEmptyArray();
+        create_board();
     }
 
-    public void Action(){
-        if (this.player.equals("X")) {
-            this.player = "O";
+    public void action(int row, int col, View myView){
+        change_valueOFboard(row,col,this.currentPlayer);
+        if (this.currentPlayer.equals("X")) {
+            this.currentPlayer = "O";
         } else {
-            this.player = "X";
+            this.currentPlayer = "X";
         }
         this.turn += 1;
     }
 
     // Check winner case
-    Boolean CheckWinner() {
-        String[] checker = new String[board_lenght];
+    Boolean checkWin() {
+        String[] checker = new String[size];
 
-        for (int i = 0; i < board_lenght; i++) {
-            if (player.equals("X")) {
+        for (int i = 0; i < size; i++) {
+            if (currentPlayer.equals("X")) {
                 checker[i] = "O";
             } else {
                 checker[i] = "X";
             }
         }
-        String[] temp_hor = new String[board_lenght];
-        String[] temp_ver = new String[board_lenght];
-        for (int i = 0; i < board_lenght; i++) {
+        String[] temp_hor = new String[size];
+        String[] temp_ver = new String[size];
+        for (int i = 0; i < size; i++) {
 
             if (Arrays.deepEquals(checker, board[i])) { // check row
                 return true;
             }
-            String[] temp = new String[board_lenght];
-            for (int j = 0; j < board_lenght; j++) {
+            String[] temp = new String[size];
+            for (int j = 0; j < size; j++) {
                 temp[j] = board[j][i];
             }
             if (Arrays.deepEquals(checker, temp)) { // check collumn
                 return true;
             }
             temp_hor[i] = board[i][i];
-            temp_ver[i] = board[i][(board_lenght - 1) - i];
+            temp_ver[i] = board[i][(size - 1) - i];
         }
         if (Arrays.deepEquals(checker, temp_hor) || Arrays.deepEquals(checker, temp_ver)) {
             return true;
@@ -110,14 +122,28 @@ public class Model {
         return false;
     }
 
+    public String select_path() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            System.out.println("Selected file: " + filePath);
+            return filePath;
+        }
+        return null;
+    }
+
     // Save game
-    public void SaveGame() {
+    public void savegame() {
         try {
-            FileWriter writer = new FileWriter(new File("save.txt"));
-            writer.write(String.valueOf(board_lenght));
+            FileWriter writer = new FileWriter(select_path());
+            writer.write(String.valueOf(size));
             writer.write("\n");
-            for (int i = 0; i < board_lenght; i++) {
-                for (int j = 0; j < board_lenght; j++) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
                     if (!board[i][j].equals("X") && !board[i][j].equals("O")) {
                         writer.write("n");
                     } else {
@@ -126,7 +152,7 @@ public class Model {
                 }
             }
             writer.write("\n");
-            writer.write(player);
+            writer.write(currentPlayer);
             writer.write("\n");
             writer.write(String.valueOf(turn));
             writer.write("\n");
@@ -138,11 +164,13 @@ public class Model {
     }
 
     // Load Game
-    public boolean LoadGame() {
+    public void loadgame() {
         List<String> list = new ArrayList<String>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("save.txt"));
+            Path file = Paths.get(select_path());
+            BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8);
             String data;
+
             while ((data = reader.readLine()) != null) {
                 list.add(data);
             }
@@ -150,14 +178,14 @@ public class Model {
             e.printStackTrace();
         }
 
-        int old_board_lenght = Integer.parseInt(list.get(0));
-        if (this.board_lenght == old_board_lenght) {
-            this.player = list.get(2);
+        int old_size = Integer.parseInt(list.get(0));
+        if (this.size == old_size) {
+            this.currentPlayer = list.get(2);
             this.turn = (Integer.parseInt(list.get(3)));
             char[] XO_list = list.get(1).toCharArray();
             int XO_listDefaulthIndex = 0;
-            for (int i = 0; i < this.board_lenght; i++) {
-                for (int j = 0; j < this.board_lenght ; j++) {
+            for (int i = 0; i < this.size; i++) {
+                for (int j = 0; j < this.size ; j++) {
                     if (String.valueOf(XO_list[XO_listDefaulthIndex]).equals("n")) {
                         System.out.println("n");
                         change_valueOFboard(i, j, " ");
@@ -169,12 +197,10 @@ public class Model {
                 }
             }
             JOptionPane.showMessageDialog(null, "Load Finished", null, JOptionPane.INFORMATION_MESSAGE);
-            return true;
         } else {
             JOptionPane.showMessageDialog(null,
-                    "Table size is not the same (Table size must be " + old_board_lenght + ").", null,
+                    "Table size is not the same (Table size must be " + old_size + ").", null,
                     JOptionPane.INFORMATION_MESSAGE);
-            return false;
         }
     }
 }
